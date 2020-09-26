@@ -11,7 +11,20 @@ class SlimKeyfy::Transformer::Word
   end
 
   def as_list(delim=" ")
-    @line.split(delim)
+    delimiter_items =
+      @line.
+        sub(/^(\s*\|)(\w)/, "\\1 \\2").  # add a whitespace to support "|string"
+        split(delim)
+    items = []
+    # div: div
+    delimiter_items.reverse.each do |item|
+      if item[/^([a-z]|\.[a-z]|#[a-z]).*:/]
+        items[-1] = "#{item} #{items[-1]}"
+      else
+        items << item
+      end
+    end
+    items.reverse
   end
 
   def unindented_line

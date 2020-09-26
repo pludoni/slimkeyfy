@@ -26,7 +26,14 @@ describe "SlimTransformer" do
     context "with pipe | slim symbol" do
       let(:line){ "  | Hello World!" }
       it {should == [
-        "  = t('.hello_world')", 
+        "  = t('.hello_world')",
+        {"#{key_base}.hello_world" => "Hello World!"}]
+      }
+    end
+    context "with pipe | and no whitespace " do
+      let(:line){ "  |Hello World!" }
+      it {should == [
+        "  = t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -47,7 +54,14 @@ describe "SlimTransformer" do
     context "with dotted html" do
       let(:line){ "  aside.pointer Hello World!" }
       it {should == [
-        "  aside.pointer= t('.hello_world')", 
+        "  aside.pointer= t('.hello_world')",
+        {"#{key_base}.hello_world" => "Hello World!"}]
+      }
+    end
+    context "with nested html" do
+      let(:line){ "  aside.pointer: div Hello World!" }
+      it {should == [
+        "  aside.pointer: div= t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
