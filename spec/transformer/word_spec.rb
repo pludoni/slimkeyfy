@@ -3,8 +3,8 @@ require_relative '../../lib/slimkeyfy/'
 describe "Word" do
   let( :raw_input ) { '       = submit_tag "Search", class: "btn btn-primary"' }
   let( :key_base ) { "key_base.new"}
-  let( :extension ) { "slim" }
-  let( :word ) { SlimKeyfy::Transformer::Word.new(raw_input, key_base, extension) }
+  let( :use_absolute_key ) { false }
+  let( :word ) { SlimKeyfy::Transformer::Word.new(raw_input, key_base, use_absolute_key) }
   let( :translation_key ) { "hello_world" }
 
   context "with slim extension the key should be relative" do
@@ -13,7 +13,7 @@ describe "Word" do
   end
 
   context "with rb extension the key should be absolute" do
-    let( :extension ) { "rb" }
+    let( :use_absolute_key ) { true }
     subject { word.i18n_string(translation_key) }
     it { should == "t('key_base.new.hello_world')" }
   end

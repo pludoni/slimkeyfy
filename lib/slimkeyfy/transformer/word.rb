@@ -2,10 +2,10 @@ class SlimKeyfy::Transformer::Word
   attr_reader :line, :tokens, :indentation
   attr_accessor :translations
 
-  def initialize(line, key_base, extension)
+  def initialize(line, key_base, use_absolute_key)
     @line = line
     @key_base = key_base
-    @extension = extension
+    @use_absolute_key = use_absolute_key.is_a?(String) ? use_absolute_key == '.rb' : use_absolute_key
     @indentation = " " * (@line.size - unindented_line.size)
     @translations = {}
   end
@@ -43,8 +43,8 @@ class SlimKeyfy::Transformer::Word
     args_string = args.inject('') do |string, (k,v)|
       string += ", #{k}: (#{v})"
     end
-    
-    if @extension == "rb"
+
+    if @use_absolute_key
       "t('#{@key_base}.#{translation_key}'#{args_string})"
     else
       "t('.#{translation_key}'#{args_string})"

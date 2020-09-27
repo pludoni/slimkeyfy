@@ -46,6 +46,9 @@ class SlimKeyfy::Console::Commandline
                                       ') do
       @options[:recursive] = true
     end
+    opts.on_tail('-a', '--absolute', 'Always use full absolute keys in slim-files (e.g. controller.action.key instead of .key)') do
+      @options[:use_absolute_key] = true
+    end
     opts.on_tail('-b', '--no-backup', 'No Backups - for safety reasons - are created. For minimum safety we
                                       recommend a version control like git. Backups will still be created for
                                       comparison but deleted right after you agree to the changes.

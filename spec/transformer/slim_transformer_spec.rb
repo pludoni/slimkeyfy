@@ -16,6 +16,9 @@ describe "SlimTransformer" do
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
+    context "with option absolute" do
+      subject  { SlimKeyfy::Transformer::SlimTransformer.new(word, nil).transform }
+    end
     context "with small html tag" do
       let(:line){ "  small Hello World!" }
       it {should == [
@@ -271,8 +274,8 @@ describe "SlimTransformer" do
 
     context "when line contains a alt tag" do
       let( :line ) { "= link_to image_tag(\"application/logo.png\", alt: \"Phrase\", height: 21, width: 106), root_path, class: \"navbar-brand\"" }
-      let(:translated) { "= link_to image_tag(\"application/logo.png\", alt: t('.phraseapp'), height: 21, width: 106), root_path, class: \"navbar-brand\"" }
-      it { should == [ translated , {"key_base.new.phraseapp" => "Phrase"}]}
+      let(:translated) { "= link_to image_tag(\"application/logo.png\", alt: t('.phrase'), height: 21, width: 106), root_path, class: \"navbar-brand\"" }
+      it { should == [ translated , {"key_base.new.phrase" => "Phrase"}]}
     end
 
     context "when line contains a include_blank tag" do

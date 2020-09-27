@@ -2,9 +2,9 @@ require_relative '../../lib/slimkeyfy/'
 
 describe "Controllers Transformer should transform .rb correctly" do
   let( :key_base ) { "some_controller"}
-  let( :extension ) { "rb" }
+  let( :use_absolute_key ) { true }
   let( :line ) { "" }
-  let( :word ) { SlimKeyfy::Transformer::Word.new(line, key_base, extension) }
+  let( :word ) { SlimKeyfy::Transformer::Word.new(line, key_base, use_absolute_key) }
   subject  { SlimKeyfy::Transformer::ControllerTransformer.new(word, nil).transform }
 
   context "with alert message and new syntax" do

@@ -4,6 +4,7 @@ class SlimKeyfy::Console::Translate
 
   def initialize(options={})
     @extension = options[:ext]
+    @use_absolute_key = options.key?(:use_absolute_key) ? options[:use_absolute_key] : @extension == '.rb'
     @transformer = transformer
     @original_file_path = options[:input]
     @no_backup = options.fetch(:no_backup, false)
@@ -37,7 +38,7 @@ class SlimKeyfy::Console::Translate
 
   def stream_mode
     @content.each_with_index do |old_line, idx|
-      word = SlimKeyfy::Transformer::Word.new(old_line, @key_base, @extension)
+      word = SlimKeyfy::Transformer::Word.new(old_line, @key_base, use_absolute_key)
       new_line, translations = @transformer.new(word, @yaml_processor).transform
       if translations_are_invalid?(translations)
         @yaml_processor.delete_translations(translations)
