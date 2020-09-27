@@ -18,8 +18,6 @@ Gem::Specification.new do |s|
   s.executables = ["slimkeyfy"]
   s.require_paths = ["lib"]
 
-  s.add_dependency "yandex-translator"
-  s.add_dependency "russian"
   s.add_dependency "tty-prompt"
 
   s.add_development_dependency('rspec')

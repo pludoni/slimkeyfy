@@ -2,9 +2,7 @@ PATH
   remote: .
   specs:
     slimkeyfy (0.1.0)
-      russian
       tty-prompt
-      yandex-translator
 
 GEM
   remote: https://rubygems.org/

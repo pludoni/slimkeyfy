@@ -49,6 +49,7 @@ class SlimKeyfy::Slimutils::TranslationKeyGenerator
   end
 
   def self.yt
+    require 'yandex-translator'
     @yt ||= Yandex::Translator.new( translator_options[:api] )
   end
 
@@ -62,6 +63,7 @@ class SlimKeyfy::Slimutils::TranslationKeyGenerator
         return translation
       end
     elsif translator_options[:from_locale].to_s == 'ru'
+      require 'russian'
       ::Russian.transliterate(translation)
     else
       translation
