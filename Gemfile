@@ -13,3 +13,5 @@ end
 
 gem 'rspec', :require => 'spec'
 
+
+gem "pry", "~> 0.13.1"
