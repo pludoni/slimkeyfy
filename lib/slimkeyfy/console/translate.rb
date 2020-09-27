@@ -71,9 +71,7 @@ class SlimKeyfy::Console::Translate
 
   def finalize!
     if @changes
-      if SlimKeyfy::Console::IOAction.yes_or_no?("Do you like to review your changes?")
-        SlimKeyfy::Console::Printer.unix_diff(@bak_path, @original_file_path)
-      end
+      SlimKeyfy::Console::Printer.unix_diff(@bak_path, @original_file_path)
       if SlimKeyfy::Console::IOAction.yes_or_no?("Do you like to save your changes?")
         @yaml_processor.store!
         puts "Saved! at #{@original_file_path}"
