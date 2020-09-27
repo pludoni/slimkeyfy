@@ -1,4 +1,8 @@
 class SlimKeyfy::Console::IOAction
+  def self.prompt
+    @prompt ||= TTY::Prompt.new
+  end
+
   def self.yes_or_no?(msg)
     puts "#{msg} (y|n)"
     arg = STDIN.gets.chomp
@@ -12,19 +16,12 @@ class SlimKeyfy::Console::IOAction
     end
   end
   def self.choose(msg)
-    puts "#{msg} (y|n) (x for tagging | (a)bort)"
-    arg = STDIN.gets.chomp
-    if arg =~ /[yY](es)?/
-      "y"
-    elsif arg =~ /[nN]o?/
-      "n"
-    elsif arg =~ /x/
-      "x"
-    elsif arg =~ /a/
-      "a"
-    else
-      puts "Either (y)es, (n)o, (x) for tagging or (a) to abort"
-      self.choose(msg)
+    prompt.select(msg) do |menu|
+      menu.default 1
+      menu.choice "Use translation", "y"
+      menu.choice "Skip", "n"
+      menu.choice "Tag for changes", "x"
+      menu.choice "Cancel and Exit", "a"
     end
   end
 end
