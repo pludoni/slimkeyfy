@@ -1,9 +1,9 @@
 class SlimKeyfy::Slimutils::BaseKeyGenerator
   def self.generate_key_base_from_path(file_path, file_extension)
     key_name = case file_extension
-      when "slim" then 
-        [subdir_name(file_path), filename(file_path)].join(".") 
-      when "rb" then 
+      when "slim" then
+        [subdir_name(file_path), filename(file_path)].join(".")
+      when "rb" then
         sub = subdir_name(file_path, "controllers")
         fname = filename(file_path)
         if sub != nil and !sub.strip.empty? then

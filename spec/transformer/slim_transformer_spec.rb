@@ -4,7 +4,7 @@ describe "SlimTransformer" do
   let( :key_base ) { "key_base.new"}
   let( :extension ) { "slim" }
   let( :line ) { "" }
-  let( :word ) { SlimKeyfy::Transformer::Word.new(line, key_base, extension) } 
+  let( :word ) { SlimKeyfy::Transformer::Word.new(line, key_base, extension) }
 
   subject  { SlimKeyfy::Transformer::SlimTransformer.new(word, nil).transform }
 
@@ -12,7 +12,7 @@ describe "SlimTransformer" do
     context "with h1 html tag" do
       let(:line){ "  h1 Hello World!" }
       it {should == [
-        "  h1= t('.hello_world')", 
+        "  h1= t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -22,7 +22,7 @@ describe "SlimTransformer" do
     context "with small html tag" do
       let(:line){ "  small Hello World!" }
       it {should == [
-        "  small= t('.hello_world')", 
+        "  small= t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -43,14 +43,14 @@ describe "SlimTransformer" do
     context "with ' slim symbol" do
       let(:line){ "  ' Hello World!" }
       it {should == [
-        "  => t('.hello_world')", 
+        "  => t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
     context "with pipe and ampersand" do
       let(:line){ "  | &nbsp;Hello World!" }
       it {should == [
-        "  =< t('.hello_world')", 
+        "  =< t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -74,7 +74,7 @@ describe "SlimTransformer" do
     context "with leading and trailing nbsp; and |" do
       let(:line){ "| &nbsp;Hello World!&nbsp;" }
       it {should == [
-        "=<> t('.hello_world')", 
+        "=<> t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -91,7 +91,7 @@ describe "SlimTransformer" do
     context "with leading nbsp; and |" do
       let(:line){ "| &nbsp;Hello World!" }
       it {should == [
-        "=< t('.hello_world')", 
+        "=< t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -99,7 +99,7 @@ describe "SlimTransformer" do
     context "with trailing nbsp; and |" do
       let(:line){ "| Hello World!&nbsp;" }
       it {should == [
-        "=> t('.hello_world')", 
+        "=> t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -107,7 +107,7 @@ describe "SlimTransformer" do
     context "with | and regular whitespace" do
       let(:line){ "|  Hello World!" }
       it {should == [
-        "= t('.hello_world')", 
+        "= t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -115,7 +115,7 @@ describe "SlimTransformer" do
     context "with leading and trailing nbsp; and '" do
       let(:line){ "' &nbsp;Hello World!&nbsp;" }
       it {should == [
-        "=<> t('.hello_world')", 
+        "=<> t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -123,7 +123,7 @@ describe "SlimTransformer" do
     context "with leading nbsp; and '" do
       let(:line){ "' &nbsp;Hello World!" }
       it {should == [
-        "=<> t('.hello_world')", 
+        "=<> t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -131,7 +131,7 @@ describe "SlimTransformer" do
     context "with trailing nbsp; and '" do
       let(:line){ "' Hello World!&nbsp;" }
       it {should == [
-        "=> t('.hello_world')", 
+        "=> t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
@@ -139,12 +139,11 @@ describe "SlimTransformer" do
     context "with ' and regular whitespace" do
       let(:line){ "'  Hello World!" }
       it {should == [
-        "=> t('.hello_world')", 
+        "=> t('.hello_world')",
         {"#{key_base}.hello_world" => "Hello World!"}]
       }
     end
   end
-
 
   describe "with translated tags" do
     context "with valid tag and nothing to translate" do
@@ -169,7 +168,7 @@ describe "SlimTransformer" do
     end
     context "it should not work with complex interpolated strings" do
       let( :line ) { '= f.input :is_plural, inline_label: "Enable pluralization for this key", hint: "#{link_to("What does that mean?", article_path(slug: "working-with-phrase/pluralization"), target: "_blank")}".html_safe'}
-      let(:translated) { 
+      let(:translated) {
         '= f.input :is_plural, inline_label: t(\'.enable_pluralization_for_this\'), hint: t(\'.link_to\')What does that mean?", article_path(slug: "working-with-phrase/pluralization"), target: "_blank")}".html_safe'
       }
       let(:word_translation) { {"key_base.new.enable_pluralization_for_this"=>"Enable pluralization for this key", "key_base.new.link_to"=>'#{link_to('} }
@@ -193,16 +192,16 @@ describe "SlimTransformer" do
 
     context "when word contains [a-z].input"  do
       let( :line ) { '= f.input :max_characters_allowed, label: "Max. Characters", hint: "Shows an indicator how..."' }
-      let(:translated) { 
-        "= f.input :max_characters_allowed, label: t('.max_characters'), hint: t('.shows_an_indicator_how')" 
+      let(:translated) {
+        "= f.input :max_characters_allowed, label: t('.max_characters'), hint: t('.shows_an_indicator_how')"
       }
       let(:word_translation) { {"key_base.new.max_characters"=>"Max. Characters", "key_base.new.shows_an_indicator_how"=>"Shows an indicator how..."} }
       it { should == [ translated , word_translation] }
-    end 
+    end
 
     context "with link_to title and 'title' attribute" do
       let( :line ) { '= link_to "Add the first locale", new_project_locale_path(current_project), class: "modalized", data: {"modal-flavor" => "form"}, title: "Add Locale"' }
-      let(:translated) { 
+      let(:translated) {
         "= link_to t('.add_the_first_locale'), new_project_locale_path(current_project), class: \"modalized\", data: {\"modal-flavor\" => \"form\"}, title: t('.add_locale')"
       }
       let(:word_translation) { {"key_base.new.add_the_first_locale"=>"Add the first locale", "key_base.new.add_locale"=>"Add Locale"} }
@@ -211,7 +210,7 @@ describe "SlimTransformer" do
 
     context "iconified links with several translatable attributes should work" do
       let( :line ) { '= link_to iconified("Hello World!", :pencil), title: "Hi there! How are, you?!", :translation_search => {:query => translation.translation_key.nil? ? "" : "\"#{translation.translation_key.name}\"" }), placeholder: "Hi there! How are, you?!", :class => "btn btn-default btn-sm tooltipped", hint: "Hi! What up?"'}
-      let(:translated) { 
+      let(:translated) {
         '= link_to iconified(t(\'.hello_world\'), :pencil), title: t(\'.hi_there_how_are\'), :translation_search => {:query => translation.translation_key.nil? ? "" : "\"#{translation.translation_key.name}\"" }), placeholder: t(\'.hi_there_how_are\'), :class => "btn btn-default btn-sm tooltipped", hint: t(\'.hi_what_up\')'
       }
       let(:word_translation) { {"key_base.new.hi_there_how_are"=>"Hi there! How are, you?!", "key_base.new.hi_what_up"=>"Hi! What up?", "key_base.new.hello_world" => "Hello World!"} }
@@ -246,7 +245,7 @@ describe "SlimTransformer" do
       let( :line ) { '= submit_tag "Search", class: "btn btn-primary"' }
       let(:translated) { '= submit_tag t(\'.search\'), class: "btn btn-primary"' }
       it { should == [ translated , {"key_base.new.search"=>"Search"}] }
-    end 
+    end
 
     context "when line contains a translatable submit_tag" do
       let( :line ) {  "= small_button 'Upgrade Account', blabla" }
@@ -257,7 +256,7 @@ describe "SlimTransformer" do
     context "when line contains a translatable submit_tag" do
       let( :line ) { "  = f.input :some_input, label: \"Your friends' emails\", hint: \"Separate multiple email addresses by comma\", input_html: {class: \"input-block-level\"}" }
       let(:translated) { "  = f.input :some_input, label: t('.your_friends_emails'), hint: t('.separate_multiple_email_addresses'), input_html: {class: \"input-block-level\"}" }
-      it { should == [ translated , 
+      it { should == [ translated ,
         {"key_base.new.your_friends_emails" => "Your friends' emails",
          "key_base.new.separate_multiple_email_addresses" => "Separate multiple email addresses by comma"}]
         }
@@ -266,7 +265,7 @@ describe "SlimTransformer" do
     context "when line contains a button with symbolic reference" do
       let( :line ) { " = f.button :submit, \"Add Language\", class: \"btn btn-primary\", title: \"A Title\"" }
       let(:translated) { " = f.button :submit, t('.add_language'), class: \"btn btn-primary\", title: t('.a_title')" }
-      it { should == [ translated , 
+      it { should == [ translated ,
         {"key_base.new.a_title" => "A Title",
          "key_base.new.add_language" => "Add Language"}]
         }
@@ -293,16 +292,16 @@ describe "SlimTransformer" do
     context "when line contains a data tag followed by content tag" do
       let( :line ) { "- key_stuff = \"#\{raw(t('.key_names', href: \"#\{link_to(\"W00t\", title: t('.key_names_column'), data: {content: \"Some more Content\", html: true})}\"" }
       let(:translated) { "- key_stuff = \"#\{raw(t('.key_names', href: \"#\{link_to(t('.w00t'), title: t('.key_names_column'), data: {content: t('.some_more_content'), html: true})}\"" }
-      it { should == [ translated , 
+      it { should == [ translated ,
         {"key_base.new.w00t" => "W00t",
          "key_base.new.some_more_content" => "Some more Content"}]
         }
     end
-    
+
     context "when line contains a #" do
       let( :line ) { "# key_stuff = \"#\{raw(t('.key_names', href: \"#\{link_to(\"W00t\", title: t('.key_names_column'), data: {content: \"Some more Content\", html: true})}\"" }
       let(:translated) { "# key_stuff = \"#\{raw(t('.key_names', href: \"#\{link_to(t('.w00t'), title: t('.key_names_column'), data: {content: t('.some_more_content'), html: true})}\"" }
-      it { should == [ translated , 
+      it { should == [ translated ,
         {"key_base.new.w00t" => "W00t",
          "key_base.new.some_more_content" => "Some more Content"}]
         }

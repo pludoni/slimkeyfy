@@ -59,7 +59,7 @@ class SlimKeyfy::Transformer::Word
     @translations.merge!({translation_key_with_base => translation})
     i18n_string(extract_updated_key(translation_key_with_base), arguments)
   end
-  
+
   def extract_arguments(translation)
     args = {}
     translation.scan(/\#{[^}]*}/).each_with_index do |arg, index|

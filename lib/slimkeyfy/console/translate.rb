@@ -56,10 +56,10 @@ class SlimKeyfy::Console::Translate
     SlimKeyfy::Console::Printer.difference(old_line, new_line, translations)
     case SlimKeyfy::Console::IOAction.choose("Changes wanted?")
       when "y" then update_with(idx, new_line)
-      when "n" then 
+      when "n" then
         update_with(idx, old_line)
         @yaml_processor.delete_translations(translations)
-      when "x" then 
+      when "x" then
         update_with(idx, SlimKeyfy::Console::Printer.tag(old_line, translations, comment_tag))
         @yaml_processor.delete_translations(translations)
       when "a" then
@@ -80,9 +80,9 @@ class SlimKeyfy::Console::Translate
         SlimKeyfy::Slimutils::MFileUtils.restore(@bak_path, @original_file_path)
         puts "Restored!"
       end
-    else 
+    else
       SlimKeyfy::Slimutils::MFileUtils.restore(@bak_path, @original_file_path)
-      puts "Nothing was changed!" 
+      puts "Nothing was changed!"
     end
   end
 
@@ -102,9 +102,9 @@ class SlimKeyfy::Console::Translate
     result = []
     joining_str = ''
     indent_length = 0
-    long_str_start = /^[ ]+\|/
+    long_str_start = /^[ ]+\| */
     long_str_indent = /^[ ]+/
-    long_str_indent_with_vertical_bar = /^[ ]+\|/
+    long_str_indent_with_vertical_bar = /^[ ]+\| */
     strings_array.each do |str|
       if joining_str.empty?
         if str[long_str_start]

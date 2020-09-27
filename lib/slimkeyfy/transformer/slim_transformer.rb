@@ -22,7 +22,7 @@ class SlimKeyfy::Transformer::SlimTransformer < SlimKeyfy::Transformer::BaseTran
   }
 
   LINK_TO = /#{HTML_ARGUMENTS[:link_to]}#{TRANSLATION}/
-  
+
   INTERPOLATED_VARIABLES = /\#{[^}]*}/
 
   def regex_list
@@ -33,7 +33,7 @@ class SlimKeyfy::Transformer::SlimTransformer < SlimKeyfy::Transformer::BaseTran
     return nil_elem if should_not_be_processed?(@word.as_list)
     unindented_line = @word.unindented_line
 
-    result = 
+    result =
     if unindented_line.match(EQUALS)
       parse_html_arguments(unindented_line)
     elsif @word.head.match(HTML_TAGS)
@@ -55,7 +55,7 @@ class SlimKeyfy::Transformer::SlimTransformer < SlimKeyfy::Transformer::BaseTran
     if body.match(LINK_TO) != nil
       body = link_tos(body)
     end
-    
+
     translation_key = update_hashes(body)
     normalize_translation("#{tagged_with_equals} #{translation_key}")
   end
