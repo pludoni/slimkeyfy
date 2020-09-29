@@ -19,6 +19,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "tty-prompt"
+  s.add_dependency "diff-lcs"
+  s.add_dependency "diffy"
 
   s.add_development_dependency('rspec')
   s.add_development_dependency('pry-byebug')

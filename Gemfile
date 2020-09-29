@@ -10,8 +10,7 @@ group :development do
   # gem 'pry-byebug'
 end
 
-
 gem 'rspec', :require => 'spec'
 
-
 gem "pry", "~> 0.13.1"
+gem "pry-doc"

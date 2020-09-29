@@ -48,7 +48,6 @@ class SlimKeyfy::Console::Translate
         update_with(idx, old_line)
       else
         process_new_line(idx, old_line, new_line, translations)
-        @changes = true
       end
     end
     SlimKeyfy::Slimutils::FileWriter.write(@file_path, @new_content.join("\n"))
@@ -78,13 +77,16 @@ class SlimKeyfy::Console::Translate
   def process_new_line(idx, old_line, new_line, translations)
     SlimKeyfy::Console::Printer.difference(old_line, new_line, translations)
     case SlimKeyfy::Console::IOAction.choose("Changes wanted?")
-      when "y" then update_with(idx, new_line)
+      when "y"
+        update_with(idx, new_line)
+        @changes = true
       when "c"
         change_key(idx, old_line, new_line, translations)
       when "n" then
         update_with(idx, old_line)
         @yaml_processor.delete_translations(translations)
       when "x" then
+        @changes = true
         update_with(idx, SlimKeyfy::Console::Printer.tag(old_line, translations, comment_tag))
         @yaml_processor.delete_translations(translations)
       when "a" then

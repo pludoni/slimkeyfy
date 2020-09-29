@@ -1,24 +1,16 @@
+require 'diff-lcs'
+require 'diffy'
+
 class SlimKeyfy::Console::Printer
   def self.difference(old_line, new_line, translations)
-    puts "#{'-'.red} #{normalize(old_line).red}"
-    puts "#{'+'.green} #{normalize(new_line).green} => #{translations.to_s.yellow}"
+    puts Diffy::Diff.new("#{old_line}\n", "#{new_line}\n", context: 1).to_s(:color)
+    puts translations.to_s.yellow
     puts "-"*40
   end
+
   def self.unix_diff(bak_path, file_path)
-    result = "Please install colordiff or diff (brew install colordiff)"
-    colordiff, diff, wdiff = `which colordiff`, `which diff`, `which wdiff`
-    if !wdiff.empty? and !colordiff.empty?
-      result = `wdiff #{bak_path} #{file_path} | colordiff`
-    elsif not colordiff.empty?
-      result = `colordiff #{bak_path} #{file_path}`
-    elsif not diff.empty?
-      result =`diff #{bak_path} #{file_path}`
-    end
-    if result.nil? or result.strip.empty?
-      puts "No changes for comparison found!"
-    else
-      puts "#{result}"
-    end
+    diff = Diffy::Diff.new(bak_path, file_path, source: 'files', context: 1).to_s(:color)
+    puts diff
   end
   def self.normalize(line)
     line.sub(/^\s*/, " ")
