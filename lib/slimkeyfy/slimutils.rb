@@ -1,5 +1,4 @@
 module SlimKeyfy::Slimutils
-
 end
 
 require 'slimkeyfy/slimutils/file_utils'

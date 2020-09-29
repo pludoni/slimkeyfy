@@ -25,8 +25,6 @@ class SlimKeyfy::Transformer::SlimTransformer < SlimKeyfy::Transformer::BaseTran
 
   LINK_TO = /#{HTML_ARGUMENTS[:link_to]}#{TRANSLATION}/
 
-  INTERPOLATED_VARIABLES = /\#{[^}]*}/
-
   def regex_list
     HTML_ARGUMENTS.map{|_, regex| /#{BEFORE}#{regex}#{TRANSLATION}#{AFTER}/ }
   end

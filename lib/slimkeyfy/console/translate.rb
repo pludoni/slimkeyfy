@@ -10,6 +10,7 @@ class SlimKeyfy::Console::Translate
     @no_backup = options.fetch(:no_backup, false)
     @bak_path = SlimKeyfy::Slimutils::MFileUtils.backup(@original_file_path)
     @content = self.class.join_multiline( SlimKeyfy::Slimutils::FileReader.read(@bak_path).split("\n") )
+    @content << "" # new line at the end
     @file_path = SlimKeyfy::Slimutils::MFileUtils.create_new_file(@original_file_path)
     @key_base = generate_key_base
     @yaml_processor = create_yaml_processor(options)
@@ -22,6 +23,8 @@ class SlimKeyfy::Console::Translate
       SlimKeyfy::Transformer::SlimTransformer
     elsif @extension == "rb"
       SlimKeyfy::Transformer::ControllerTransformer
+    elsif @extension == "vue"
+      SlimKeyfy::Transformer::VueTransformer
     else
       puts "Unknown extension type!"
       exit
@@ -38,7 +41,7 @@ class SlimKeyfy::Console::Translate
 
   def stream_mode
     @content.each_with_index do |old_line, idx|
-      word = SlimKeyfy::Transformer::Word.new(old_line, @key_base, @use_absolute_key)
+      word = SlimKeyfy::Transformer::Word.for(@extension).new(old_line, @key_base, @use_absolute_key)
       new_line, translations = @transformer.new(word, @yaml_processor).transform
       if translations_are_invalid?(translations)
         @yaml_processor.delete_translations(translations)

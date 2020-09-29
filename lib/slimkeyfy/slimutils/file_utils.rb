@@ -40,7 +40,7 @@ class SlimKeyfy::Slimutils::MFileUtils
   end
   def self.is_valid_extension?(file_path)
     return false if (file_path.nil? or file_path.empty?)
-    (file_path.end_with?(".slim") or file_path.end_with?(".rb"))
+    (file_path.end_with?(".slim") or file_path.end_with?(".rb") or file_path.end_with?(".vue"))
   end
 end
 

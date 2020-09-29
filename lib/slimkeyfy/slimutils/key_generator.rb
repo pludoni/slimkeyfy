@@ -1,6 +1,13 @@
 class SlimKeyfy::Slimutils::BaseKeyGenerator
+  JS_PREFIX = "js"
+
   def self.generate_key_base_from_path(file_path, file_extension)
     key_name = case file_extension
+      when "vue" then
+        subdir = File.dirname(file_path).sub(Dir.pwd + "/", '').sub(%r{^(app/javascript|lib|src)/}, '').gsub('/', '.')
+        fname = File.basename(file_path).sub('.vue', '').gsub(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2').gsub(/([a-z\d])([A-Z])/, '\1_\2').tr("-", "_").downcase
+
+        [JS_PREFIX, subdir, fname].join(".")
       when "slim" then
         [subdir_name(file_path), filename(file_path)].join(".")
       when "rb" then

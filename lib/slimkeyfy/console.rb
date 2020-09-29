@@ -1,5 +1,4 @@
 module SlimKeyfy::Console
-
 end
 
 require 'slimkeyfy/console/printer'

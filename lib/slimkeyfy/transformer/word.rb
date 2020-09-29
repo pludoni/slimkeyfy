@@ -2,6 +2,14 @@ class SlimKeyfy::Transformer::Word
   attr_reader :line, :tokens, :indentation
   attr_accessor :translations
 
+  def self.for(extension)
+    if extension == 'vue'
+      SlimKeyfy::Transformer::JsWord
+    else
+      SlimKeyfy::Transformer::Word
+    end
+  end
+
   def initialize(line, key_base, use_absolute_key)
     @line = line
     @key_base = key_base
