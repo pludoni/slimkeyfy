@@ -4,6 +4,21 @@ class SlimKeyfy::Transformer::VueTransformer < SlimKeyfy::Transformer::SlimTrans
     true
   end
 
+  BEFORE =        /(?<before>.*[\( ^])/
+  HTML_ARGUMENTS = {
+    placeholder:        /(?<html_tag>[a-z\-]*placeholder=\s*)/,
+    title:              /(?<html_tag>title=\s*)/,
+    label:              /(?<html_tag>[a-z\-]*label=\s*)/,
+    description:        /(?<html_tag>description=\s*)/,
+    alt:                /(?<html_tag>alt=\s*)/,
+    prepend:            /(?<html_tag>prepend=\s*)/,
+    append:             /(?<html_tag>append=\s*)/,
+  }
+
+  def regex_list
+    HTML_ARGUMENTS.map{|_, regex| /#{BEFORE}#{regex}#{TRANSLATION}#{AFTER}/ }
+  end
+
   def initialize(word, yaml_processor=nil)
     super
   end
@@ -46,6 +61,22 @@ class SlimKeyfy::Transformer::VueTransformer < SlimKeyfy::Transformer::SlimTrans
 
     translation_key = update_hashes(body)
     normalize_translation("#{tagged_with_equals} #{translation_key}")
+  end
+
+  def parse_html_arguments(line)
+    regex_list.each do |regex|
+      line.scan(regex) do |m_data|
+        before, html_tag = m_data[0], m_data[1]
+        if before[-1] == ":" # already dynamic attribute
+          next
+        end
+        translation, after = match_string(m_data[2]), m_data[3]
+
+        translation_key = @word.update_translation_key_hash(@yaml_processor, translation, mode = :html_argument)
+        line = "#{before}:#{html_tag}#{translation_key}#{after}"
+      end
+    end
+    normalize_translation(line)
   end
 end
 

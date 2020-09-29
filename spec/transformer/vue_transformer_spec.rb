@@ -35,4 +35,24 @@ describe "VueTransformer" do
       "button.btn {{ $t('key_base.new.speichern') }}", {"key_base.new.speichern"=>"Speichern"}]
     }
   end
+
+  context "attribute keys" do
+    let(:line) { 'button(class="btn btn-outline-secondary" type="button" title="Toggle" data-toggle)' }
+    it {should == [
+      %{button(class="btn btn-outline-secondary" type="button" :title="$t('key_base.new.toggle')" data-toggle)}, {"key_base.new.toggle"=>"Toggle"}]
+    }
+  end
+
+  context "don't translate already translated" do
+    let(:line) { 'button(class="btn btn-outline-secondary" type="button" :title="toggle" data-toggle)' }
+    it {should == [ nil, nil]
+    }
+  end
+
+  context "arial-label" do
+    let(:line) { 'a(href="#" class="btn-clear" aria-label="Löschen" role="button")' }
+    it {should == [ %[a(href="#" class="btn-clear" :aria-label="$t('key_base.new.loschen')" role="button")], {"key_base.new.loschen" => "Löschen"}]
+    }
+  end
+  # b-modal(modal-title="Foobar")
 end

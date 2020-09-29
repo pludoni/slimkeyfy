@@ -86,7 +86,9 @@ class SlimKeyfy::Slimutils::TranslationKeyGenerator
   def generate_key_name
     normalized_translation = ""
     if not (@translation.nil? or @translation.empty?) then
-      normalized_translation = @translation.gsub(VALID, "_").gsub(/[_]+/, "_").downcase
+
+      removed_accents = @translation.unicode_normalize(:nfkd).gsub(/(\p{Letter})\p{Mark}+/,'\\1')
+      normalized_translation = removed_accents.gsub(VALID, "_").gsub(/[_]+/, "_").downcase
       normalized_translation = normalized_translation.split("_")[0..3].join("_")
     end
     return DEFAULT_KEY_NAME if is_not_valid?(normalized_translation.strip)
