@@ -18,7 +18,7 @@ class SlimKeyfy::Transformer::Word
     items = []
     # div: div
     delimiter_items.reverse.each do |item|
-      if item[/^([a-z]|\.[a-z]|#[a-z]).*:/]
+      if item[/^([a-z]|\.[a-z]|#[a-z]).*:/] and items.length > 0
         items[-1] = "#{item} #{items[-1]}"
       else
         items << item

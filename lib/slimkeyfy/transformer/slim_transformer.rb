@@ -13,6 +13,8 @@ class SlimKeyfy::Transformer::SlimTransformer < SlimKeyfy::Transformer::BaseTran
     inconified:         /(?<html_tag>(iconified\s*\(?))/,
     placeholder:        /(?<html_tag>placeholder:\s*)/,
     title:              /(?<html_tag>title:\s*)/,
+    prepend:            /(?<html_tag>prepend:\s*)/,
+    append:             /(?<html_tag>append:\s*)/,
     label:              /(?<html_tag>[a-z]*_?label:\s*)/,
     optionals:          /(?<html_tag>(default|include_blank|alt):\s*)/,
     input:              /(?<html_tag>[a-z]*\.?input:?\s*)/,
@@ -88,7 +90,7 @@ class SlimKeyfy::Transformer::SlimTransformer < SlimKeyfy::Transformer::BaseTran
     ["#{@word.indentation}#{translation}", @word.translations]
   end
 
-  def slim?
+  def self.slim?
     true
   end
 end

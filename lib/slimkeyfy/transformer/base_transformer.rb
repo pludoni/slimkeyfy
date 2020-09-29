@@ -36,7 +36,11 @@ class SlimKeyfy::Transformer::BaseTransformer
     false
   end
 
-  def slim?
+  def self.slim?
     false
+  end
+
+  def slim?
+    self.class.slim?
   end
 end

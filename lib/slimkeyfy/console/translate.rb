@@ -38,7 +38,7 @@ class SlimKeyfy::Console::Translate
 
   def stream_mode
     @content.each_with_index do |old_line, idx|
-      word = SlimKeyfy::Transformer::Word.new(old_line, @key_base, use_absolute_key)
+      word = SlimKeyfy::Transformer::Word.new(old_line, @key_base, @use_absolute_key)
       new_line, translations = @transformer.new(word, @yaml_processor).transform
       if translations_are_invalid?(translations)
         @yaml_processor.delete_translations(translations)
