@@ -50,12 +50,34 @@ class SlimKeyfy::Console::Translate
     end
     SlimKeyfy::Slimutils::FileWriter.write(@file_path, @new_content.join("\n"))
     finalize!
+  rescue StandardError => e
+    SlimKeyfy::Slimutils::MFileUtils.restore(@bak_path, @original_file_path)
+    raise e
+  end
+
+  def change_key(idx, old_line, new_line, translations)
+    old_key = translations.first.first
+    parts = old_key.split('.')
+    prefix = parts[0...-1].join('.')
+    new_key = prefix + "." + TTY::Prompt.new.ask("Key: #{prefix}.", default: parts[-1])
+
+    update_with(idx, old_line)
+    @yaml_processor.delete_translations(translations)
+
+    translations[new_key] = translations.delete(old_key)
+
+    @yaml_processor.merge!(new_key, translations[new_key])
+    new_line = new_line.sub(old_key, new_key)
+
+    process_new_line(idx, old_line, new_line, translations)
   end
 
   def process_new_line(idx, old_line, new_line, translations)
     SlimKeyfy::Console::Printer.difference(old_line, new_line, translations)
     case SlimKeyfy::Console::IOAction.choose("Changes wanted?")
       when "y" then update_with(idx, new_line)
+      when "c"
+        change_key(idx, old_line, new_line, translations)
       when "n" then
         update_with(idx, old_line)
         @yaml_processor.delete_translations(translations)
