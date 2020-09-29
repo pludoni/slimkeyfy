@@ -1,8 +1,22 @@
-Slimkeyfy
+pludoni Slimkeyfy
 =
-Extract plain Strings from .slim views and Rails controllers to replace them with I18n's t() method. 
+
+**FORK**
+
+this is a forked version with various improvements:
+
+- ruby diff library
+- supports *.vue single file component pug templates
+- tty-prompt library for interactivity
+- option to always use absolute keys
+- improved slim handling:
+  - nested tags: ``div: small Hallo``
+
+---
+
+Extract plain Strings from .slim views and Rails controllers to replace them with I18n's t() method.
 Keys with it's translations will be streamed to a YAML file.
-Non english keys get translated with yandex translator gem ( you need to get your api first ). 
+Non english keys get translated with yandex translator gem ( you need to get your api first ).
 Russian keys get transliterated in case API KEY is missed.
 
 Read more in this blog post: [Phrase Blog: Make your Rails App localizable with Slimkeyfy](https://phrase.com/blog/posts/slim-localize-your-slim-templates-in-a-second-with-slimkeyfy/)
@@ -55,10 +69,10 @@ I18n for keys addition
 ----------------------
 ( from alekseyl translator branch: https://github.com/alekseyl/slimkeyfy/tree/translator )
 I18n keys better be in english so if you start I18n from other than en locale you cannot use original slikeyfy approach, you need to translate keys first
-Two options added to CLI: 
+Two options added to CLI:
 ```unix
   '-t', '--translator-api-key [API_KEY]', 'API key for Yandex Translator'
-  '-l', '--keys-from-locale LOCALE', 'translate keys from locale'  
+  '-l', '--keys-from-locale LOCALE', 'translate keys from locale'
 ```
 
 API key can be given directly in CLI or added with export:
