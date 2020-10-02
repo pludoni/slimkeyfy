@@ -8,6 +8,7 @@ class SlimKeyfy::Transformer::VueTransformer < SlimKeyfy::Transformer::SlimTrans
   HTML_ARGUMENTS = {
     placeholder:        /(?<html_tag>[a-z\-]*placeholder=\s*)/,
     title:              /(?<html_tag>title=\s*)/,
+    kind_of_title:      /(?<html_tag>[a-z\-]+title=\s*)/,
     label:              /(?<html_tag>[a-z\-]*label=\s*)/,
     description:        /(?<html_tag>description=\s*)/,
     alt:                /(?<html_tag>alt=\s*)/,

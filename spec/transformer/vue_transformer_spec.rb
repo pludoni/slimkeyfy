@@ -54,5 +54,11 @@ describe "VueTransformer" do
     it {should == [ %[a(href="#" class="btn-clear" :aria-label="$t('key_base.new.loschen')" role="button")], {"key_base.new.loschen" => "Löschen"}]
     }
   end
+
+  context "label as first attribute" do
+    let(:line) { 'b-form-group(label="Sprache")' }
+    it {should == [ %[b-form-group(:label="$t('key_base.new.sprache')")], {"key_base.new.sprache" => "Sprache"}]
+    }
+  end
   # b-modal(modal-title="Foobar")
 end

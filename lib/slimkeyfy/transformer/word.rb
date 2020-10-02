@@ -18,11 +18,14 @@ class SlimKeyfy::Transformer::Word
     @translations = {}
   end
 
-  def as_list(delim=" ")
+  def as_list
+    # check for div.foo-bar(foo=bar)
+    has_html_form = !!@line[/^ *[\.#]?[a-z\.#-]+\(/]
     delimiter_items =
       @line.
         sub(/^(\s*\|)(\w)/, "\\1 \\2").  # add a whitespace to support "|string"
-        split(delim)
+        split(has_html_form ? /(?<=[\(])| +/ : ' ').  # split by whitespace or ( but keep (
+        drop_while { |i| i == "" } # .. but that leaves leading ""
     items = []
     # div: div
     delimiter_items.reverse.each do |item|
